@@ -9,6 +9,7 @@ class DOMHelper {
 		const element = document.getElementById(elementId);
 		const destintionElement = document.querySelector(newDestinationSelector);
 		destintionElement.append(element);
+		element.scrollIntoView({ behavior: "smooth" });
 	}
 }
 
@@ -52,7 +53,11 @@ class Tooltip extends Component {
 		const tooltipElement = document.createElement("div");
 
 		tooltipElement.className = "card";
-		tooltipElement.textContent = this.text;
+
+		const tooltipTemplate = document.getElementById("tooltip");
+		const tooltipBody = document.importNode(tooltipTemplate.content, true);
+		tooltipBody.querySelector("p").textContent = this.text;
+		tooltipElement.appendChild(tooltipBody);
 
 		const hostElPosLeft = this.hostElement.offsetLeft;
 		const hostElPosTop = this.hostElement.offsetTop;
@@ -170,6 +175,17 @@ class App {
 		finishedProjectsList.setMoveHandler(
 			activeProjectsList.addProject.bind(activeProjectsList)
 		);
+
+		document
+			.getElementById("start-analytics-btn")
+			.addEventListener("click", this.startAnalytics);
+	}
+
+	static startAnalytics() {
+		const analyticsScript = document.createElement("script");
+		analyticsScript.src = "assets/scripts/analytics.js";
+		analyticsScript.defer = true;
+		document.head.append(analyticsScript);
 	}
 }
 
