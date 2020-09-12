@@ -7,6 +7,7 @@ export default class {
 		}
 		this.insertBefore = insertBefore;
 	}
+
 	detach() {
 		if (this.element) {
 			this.element.parentElement.removeChild(this.element);
